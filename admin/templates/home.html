@@ -1,0 +1,50 @@
+<div id="page-top" class="page-top">&nbsp;</div> <!-- used for anchorscroll -->
+
+<section id="home" class="section-product" ng-init="home.initView()">
+    <div class="container">
+        
+        <div class="row">
+            <div class="col-sm-8 col-sm-offset-2 text-center">
+                
+                <h1>
+                    Ionic-Stripe-Shop Admin
+                </h1>
+                <p>
+                    Signed in with: 
+                    <span class="text-variable">
+                        {{home.AuthData.password.email}}
+                    </span>
+                </p>
+      
+            </div>
+        </div>
+        
+        <hr class="star-light">
+        
+        <div class="row">
+            <div class="col-sm-8 col-sm-offset-2 text-center">
+                
+                <button
+                    ng-click="home.goTo('admin.submit')"
+                    class="btn-choice">
+                    + Add item
+                </button>
+                
+                <button
+                    ng-click="home.goTo('admin.items')"
+                    class="btn-choice">
+                    Manage items
+                </button>
+                
+                <button 
+                    ng-click="home.goTo('admin.sales')"
+                    class="btn-choice">
+                    Orders & sales
+                </button>
+      
+            </div>
+            
+        </div>
+
+    </div>
+</section>

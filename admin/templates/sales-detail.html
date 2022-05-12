@@ -1,0 +1,87 @@
+<div id="page-top" class="page-top">&nbsp;</div> <!-- used for anchorscroll -->
+
+<section id="home" class="section-product" ng-init="salesdetail.initView()">
+    <div class="container">
+        
+        <div class="row">
+            <div class="col-sm-8 col-sm-offset-2 text-center">
+                
+                
+                <h1>
+                    <a href="" ng-click="salesdetail.goTo('admin.home')">Menu</a> | 
+                    <a href="" ng-click="salesdetail.goTo('admin.sales')">Sales</a> | {{salesdetail.orderId}}
+                </h1>
+                <p>&nbsp;</p>
+                <p id="warning" ng-show="salesdetail.statusObj.generalmessage">
+                    {{salesdetail.statusObj.generalmessage}}
+                </p>
+      
+            </div>
+        </div>
+        
+        <hr class="star-light">
+        
+        <!-- spinner - can be rewritten to ng-switch to avoid flickering -->
+        <div class="row" ng-show="salesdetail.statusObj.loading">
+            <div class="col-sm-8 col-sm-offset-2 text-center">
+                <p><img ng-src="css/loading.svg" id="loading-img-large"></p>
+            </div>
+        </div>  <!-- ./ spinner -->
+        
+        <!-- FormData -->
+        <div ng-show="!salesdetail.statusObj.loading">
+            
+            <h3 class="text-left center-small-screen">Order details</h3>
+               <!-- header -->
+              <div class="row">
+                <div class="col-sm-6 text-left center-small-screen"><strong>Product</strong></div>
+                <div class="col-sm-2"><strong>Price</strong></div>
+                <div class="col-sm-2"><strong>x</strong></div>
+                <div class="col-sm-2 text-right center-small-screen"><strong>Total</strong></div>
+              </div>
+        
+              <!-- items -->
+              <div class="row line-top" ng-repeat="(cKey, ProductMeta) in salesdetail.ItemsProductsMeta">
+                <div class="col-sm-6 text-left center-small-screen">{{ProductMeta.title}}</div>
+                <div class="col-sm-2">${{ProductMeta.price}}</div>
+                <div class="col-sm-2">{{ProductMeta.count}}</div>
+                <div class="col-sm-2 text-right center-small-screen">${{ProductMeta.price * ProductMeta.count}}</div>
+              </div>
+        
+              <!-- total -->
+              <div class="row line-top">
+                <div class="col-sm-6 text-left center-small-screen">
+                  {{salesdetail.OrderData.value.nbItems || 0}} product<span ng-show="salesdetail.OrderData.value.nbItems != 1">s</span>
+                </div>
+        
+                <div class="col-sm-6 text-right center-small-screen">
+                  Total price: <strong>${{salesdetail.OrderData.value.totalPrice}}</strong>
+                </div>
+              </div>
+        
+              <div class="row line-top">
+                <div class="col-sm-6 text-left center-small-screen">
+                  Order received on {{salesdetail.formatTimestamp(salesdetail.OrderData.value.timestamp)}}
+                </div>
+              </div>
+              
+              <hr class="star-light">
+              
+              <!-- USER ADDRESS AND CONTACT DETAILS -->
+              <h3 class="text-left center-small-screen">Contact details</h3>
+              <div class="row" ng-repeat="(userField, userValue) in salesdetail.UserData">
+                  <div class="col-sm-6 text-left center-small-screen">
+                      {{userField}}
+                  </div>
+                  <div class="col-sm-6 text-left center-small-screen">
+                      {{userValue}}
+                  </div>
+              </div>
+            
+        </div> <!-- ./ FormData -->
+        
+        
+        
+
+    </div>
+</section>

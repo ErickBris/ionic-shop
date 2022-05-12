@@ -1,0 +1,73 @@
+<!-- Navigation -->
+    <nav class="navbar navbar-fixed-top" >
+        <div class="container">
+            
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                
+                <!-- 
+                Optional for mobile devices
+                    <button type="button" class="navbar-toggle btn-clear" 
+                        ng-click="navbar.scrollToSitemap()">
+                          <i class="fa fa-bars" 
+                            style="font-size: 20px !important; margin-top: 3px;">
+                          </i>
+                    </button>
+                -->
+                
+                <a class="navbar-brand" href="" ng-click="navbar.goTo('admin.home')">
+                    <span class="logo">Admin</span>
+                </a>
+            </div>
+    
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                
+                <ul class="nav navbar-nav navbar-right navbar-brand">
+                    
+                    <!-- 
+                        Optional: navbar profile image
+                        <li class="page-scroll navbar-profile">
+                            <a href="" ng-click="navbar.goTo('admin.login')" id="account-img">
+                                <img ng-src="{{navbar.AuthData.github.profileImageURL || navbar.randomImageUrl}}" alt="Noodl.io">
+                            </a>
+                        </li>
+                    -->
+                    <a ng-show="!navbar.statusOb.loading && !navbar.statusObj.loggedIn" href="" ng-click="navbar.goTo('admin.login');">
+                        Sign in
+                    </a>
+                    <a ng-show="!navbar.statusOb.loading && navbar.statusObj.loggedIn" href="" ng-click="navbar.unAuth();">
+                        Sign out
+                    </a>
+                    
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container-fluid -->
+    </nav >
+
+
+<!-- Angular ui-router -->
+    <div ui-view></div>
+
+
+<!-- Footer -->
+    <footer class="text-center" id="contact">
+        
+        <div class="footer-below">
+            <div class="container">
+                <div class="row">
+                    <div class="footer-col col-md-12">
+                        
+                        This Admin is part of the package 
+                        Ionic-Stripe-Shop, provided by
+                        Noodlio (v1.0) - 
+                        <a href="https://www.noodl.io" target="_blank">noodl.io</a>
+                        
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </footer>

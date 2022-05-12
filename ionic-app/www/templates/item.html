@@ -1,0 +1,51 @@
+<ion-view view-title="{{ProductMeta.title}}">
+
+  <ion-content>
+
+    <!-- image carousel -->
+    <div ng-switch="status.loadingImages">
+      <div ng-switch-when="true" class=" padding center">
+        <ion-spinner></ion-spinner>
+        <br>
+      </div>
+      <div ng-switch-when="false">
+        <ion-slide-box on-slide-changed="slideHasChanged($index)">
+          <ion-slide ng-repeat="(imageKey, image) in ProductImages">
+            <img  ng-src="{{image}}">
+          </ion-slide>
+        </ion-slide-box>
+      </div>
+    </div>
+
+    <!-- product description and actions -->
+    <div ng-switch="status.loadingMeta">
+      <div ng-switch-when="true" class="center">
+        <p>Loading meta...</p>
+      </div>
+      <div ng-switch-when="false">
+
+        <div class="padding">
+          <h2>{{ProductMeta.summary}} - ${{ProductMeta.price}}</h2>
+          <h3>{{ProductMeta.categoryId}}</h3>
+        </div>
+        <div class="padding center">
+          <button class="button button-light" ng-click="addToCart(productId)">
+            Add
+          </button>
+          <button class="button button-light" ng-click="removeOneFromCart(productId)">
+            Remove
+          </button>
+          <button class="button button-outline button-balanced" ng-click="goToCart()">
+            Cart ({{Cart.items[productId] || 0}})
+          </button>
+        </div>
+
+        <div class="padding">
+          <p>{{ProductMeta.description}}</p>
+        </div>
+
+      </div>
+    </div>
+
+  </ion-content>
+</ion-view>

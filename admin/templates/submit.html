@@ -1,0 +1,314 @@
+<div id="page-top" class="page-top">&nbsp;</div> <!-- used for anchorscroll -->
+
+<section id="home" class="section-product" ng-init="submit.initView()">
+    <div class="container">
+        
+        <div class="row">
+            <div class="col-sm-8 col-sm-offset-2 text-center">
+                
+                
+                <h1>
+                    <a href="" ng-click="submit.goTo('admin.home')">Menu</a> | Submit/Edit an Item
+                </h1>
+                <p>This is an example submission form. Feel free to modify this section to your needs.</p>
+                <p>&nbsp;</p>
+                <p id="warning" ng-show="submit.statusObj.generalmessage">
+                    {{submit.statusObj.generalmessage}}
+                </p>
+      
+            </div>
+        </div>
+        
+        <hr class="star-light">
+        
+        <!-- spinner - can be rewritten to ng-switch to avoid flickering -->
+        <div class="row" ng-show="submit.statusObj.loading">
+            <div class="col-sm-8 col-sm-offset-2 text-center">
+                <p><img ng-src="css/loading.svg" id="loading-img-large"></p>
+            </div>
+        </div>  <!-- ./ spinner -->
+        
+        <!-- FormData -->
+        <div ng-show="!submit.statusObj.loading">
+            
+            <div class="row" >
+                <div class="col-sm-2 col-sm-offset-2 text-right center-small-screen">
+                    <p>
+                        <strong>Title:</strong>
+                    </p>
+                </div>
+                <div class="col-sm-6 text-left">
+                    <p>
+                        <input 
+                            class="submit-box-generic submit-input-wide"
+                            type="text" ng-model="submit.FormData.title">
+                    </p>
+                </div>
+            </div>
+            
+            <div class="row" >
+                <div class="col-sm-2 col-sm-offset-2 text-right center-small-screen">
+                    <p>
+                        <strong>Summary:</strong>
+                    </p>
+                </div>
+                <div class="col-sm-6 text-left">
+                    <p>
+                        <input 
+                            class="submit-box-generic submit-input-wide"
+                            type="text" ng-model="submit.FormData.summary">
+                    </p>
+                </div>
+            </div>
+            
+            <div class="row" >
+                <div class="col-sm-2 col-sm-offset-2 text-right center-small-screen">
+                    <p>
+                        <strong>Category:</strong>
+                        
+                    </p>
+                </div>
+                <div class="col-sm-6 text-left">
+                    <p>
+                        <select class="selectpicker submit-box-generic submit-input-wide" 
+                            ng-model="submit.FormData.categoryId">
+                            <option 
+                                ng-selected="{{categoryKey == submit.FormData.categoryId}}"
+                                ng-repeat="(categoryKey, categoryObj) in submit.Categories" 
+                                value="{{categoryKey}}">
+                                {{categoryObj.title}}
+                            </option>
+                        </select>
+                    </p>
+                </div>
+            </div>
+            
+            <div class="row" >
+                <div class="col-sm-2 col-sm-offset-2 text-right center-small-screen">
+                    <p>
+                        <strong>Price:</strong>
+                    </p>
+                </div>
+                <div class="col-sm-6 text-left">
+                    <p>
+                        <input 
+                            class="submit-box-generic submit-input-narrow"
+                            placeholder="in USD (or other currency)"
+                            type="number" ng-model="submit.FormData.price" min="1">
+                    </p>
+                </div>
+            </div>
+            
+            <div class="row" >
+                <div class="col-sm-2 col-sm-offset-2 text-right center-small-screen">
+                    <p>
+                        <strong>Description:</strong>
+                    </p>
+                </div>
+                <div class="col-sm-6 text-left">
+                    
+                    <textarea 
+                        ng-model="submit.FormData.description"
+                        rows="6" 
+                        class="submit-box-generic submit-input-wide" 
+                        placeholder="Use markdown to style your description">
+                    </textarea>
+                    
+                    <p>
+                        <a href="https://help.github.com/articles/markdown-basics/" target="_blank">Markdown instructions</a>
+                        |
+                        <a href="http://dillinger.io/" target="_blank">Online editor</a>
+                    </p>
+                    
+                    
+                </div>
+            </div>
+            
+            <hr class="star-light">
+            
+            <div class="row" >
+                <div class="col-sm-2 col-sm-offset-2 text-right center-small-screen">
+                    <p>
+                        <strong>Avatar:</strong>
+                        ({{submit.dimensions.icon.w}}x{{submit.dimensions.icon.h}})
+                    </p>
+                </div>
+                <div class="col-sm-6 text-left">
+                    
+                    <p>
+                        <form name="form0" class="submit-box-generic-blank">
+                            <input 
+                                type="file" 
+                                ng-model="file0" 
+                                name="file0" 
+                                base-sixty-four-input 
+                                required 
+                                onload="submit.onLoad0" 
+                                maxsize="10000" 
+                                accept="image/*">
+                        </form>
+                    </p>
+                    
+                    <p>
+                        <img 
+                            ng-src="{{submit.Images['icon'] || 'img/blank.png'}}" 
+                            class="submit-icon-preview">
+                    </p>
+
+                </div>
+            </div>
+            
+            <hr class="star-light">
+            
+            <div class="row" >
+                <div class="col-sm-2 col-sm-offset-2 text-right center-small-screen">
+                    <p>
+                        <strong>Image1:</strong>
+                        ({{submit.dimensions.screenshot.w}}x{{submit.dimensions.screenshot.h}})
+                    </p>
+                </div>
+                <div class="col-sm-6 text-left">
+                    
+                    <p>
+                        <form name="form1" class="submit-box-generic-blank">
+                            <input 
+                                type="file" 
+                                ng-model="file1" 
+                                name="file1" 
+                                base-sixty-four-input 
+                                required 
+                                onload="submit.onLoad1" 
+                                maxsize="10000" 
+                                accept="image/*">
+                        </form>
+                    </p>
+                    
+                    <p>
+                        <img 
+                            ng-src="{{submit.Images['screenshot1'] || 'img/blank.png'}}" 
+                            class="submit-screenshot-preview">
+                    </p>
+
+                </div>
+            </div>
+            
+            
+            <hr class="star-light">
+            
+            
+            <div class="row" >
+                <div class="col-sm-2 col-sm-offset-2 text-right center-small-screen">
+                    <p>
+                        <strong>Image2:</strong>
+                        ({{submit.dimensions.screenshot.w}}x{{submit.dimensions.screenshot.h}})
+                    </p>
+                </div>
+                <div class="col-sm-6 text-left">
+                    
+                    <p>
+                        <form name="form2" class="submit-box-generic-blank">
+                            <input 
+                                type="file" 
+                                ng-model="file2" 
+                                name="file2" 
+                                base-sixty-four-input 
+                                required 
+                                onload="submit.onLoad2" 
+                                maxsize="10000" 
+                                accept="image/*">
+                        </form>
+                    </p>
+                    
+                    <p>
+                        <img 
+                            ng-src="{{submit.Images['screenshot2'] || 'img/blank.png'}}" 
+                            class="submit-screenshot-preview">
+                    </p>
+
+                </div>
+            </div>
+            
+            
+            <hr class="star-light">
+            
+            <div class="row" >
+                <div class="col-sm-2 col-sm-offset-2 text-right center-small-screen">
+                    <p>
+                        <strong>Image3:</strong>
+                        ({{submit.dimensions.screenshot.w}}x{{submit.dimensions.screenshot.h}})
+                    </p>
+                </div>
+                <div class="col-sm-6 text-left">
+                    
+                    <p>
+                        <form name="form3" class="submit-box-generic-blank">
+                            <input 
+                                type="file" 
+                                ng-model="file3" 
+                                name="file3" 
+                                base-sixty-four-input 
+                                required 
+                                onload="submit.onLoad3" 
+                                maxsize="10000" 
+                                accept="image/*">
+                        </form>
+                    </p>
+                    
+                    <p>
+                        <img 
+                            ng-src="{{submit.Images['screenshot3'] || 'img/blank.png'}}" 
+                            class="submit-screenshot-preview">
+                    </p>
+
+                </div>
+            </div>
+            
+            
+            <hr class="star-light">
+            
+            <div class="row" >
+                <div class="col-sm-2 col-sm-offset-2 text-right center-small-screen">
+                    <p>
+                        <strong>Submit:</strong>
+                    </p>
+                </div>
+                <div class="col-sm-6 text-left">
+                    <p>
+                        <button 
+                            class="btn-positive"
+                            ng-click="submit.submitForm()">
+                            Submit/Save
+                        </button>
+                    </p>
+                    <p ng-show="submit.loadingMode">
+                        Uploading...
+                    </p>
+                    <p id="warning">
+                        {{submit.ErrorMessages['general']}}
+                    </p>
+                    <p>
+                        Please make sure that all values are filled in. 
+                        This panel does not validate your input.
+                    </p>
+                    <p>
+                        You can edit the dimensions of the images and icons in
+                        <i>controllers-submit.js > submit.dimensions</i>
+                    </p>
+                </div>
+            </div>
+          
+            
+        </div> <!-- ./ FormData -->
+        
+
+    </div>
+</section>
+
+
+
+<canvas id="canvas0" style="display: none !important;"></canvas>
+<canvas id="canvas1" style="display: none !important;"></canvas>
+<canvas id="canvas2" style="display: none !important;"></canvas>
+<canvas id="canvas3" style="display: none !important;"></canvas>
+<canvas id="canvas4" style="display: none !important;"></canvas>
+<canvas id="canvas5" style="display: none !important;"></canvas>

@@ -1,0 +1,89 @@
+<ion-view view-title="Basket">
+  <ion-content ng-switch="status.loading" class="center">
+
+      <!-- view is loading... -->
+      <div ng-switch-when="true" class="padding">
+        <ion-spinner></ion-spinner>
+      </div> <!-- ./ view is loading... -->
+
+      <!-- view has loaded... -->
+      <div ng-switch-when="false">
+
+        <div ng-switch="status.checkout">
+          <div ng-switch-when="empty" class="padding">
+
+            <button class="button button-outline button-balanced" ng-click="goTo('app.browse')">Start shopping now</button>
+
+          </div>
+          <div ng-switch-when="not-empty">
+
+            <!-- header -->
+            <div class="row item">
+              <div class="col col-40 text-left"><strong>Product</strong></div>
+              <div class="col col-20 text-center"><strong>Price</strong></div>
+              <div class="col col-20 text-center"><strong>x</strong></div>
+              <div class="col col-20 text-right"><strong>Total</strong></div>
+            </div>
+
+            <!-- items -->
+            <span ng-repeat="(cKey, itemCount) in CartItems">
+              <!-- $productId -->
+              <div class="row item" >
+                <div class="col col-40 text-left">
+                  <p>
+                    {{ProductsMeta[cKey].title}}
+                  </p>
+                  <p>
+                    <a ng-click="addToCart(cKey)" class="ion-ios-plus cicon-large balanced"></a>
+                    &nbsp;
+                    <a ng-click="removeOneFromCart(cKey)" class="ion-ios-minus cicon-large assertive"></a>
+                  </p>
+                </div>
+                <div class="col col-20 text-center">
+                  <p>
+                  ${{ProductsMeta[cKey].price}}
+                  </p>
+                </div>
+                <div class="col col-20 text-center">
+                  <p>
+                  {{itemCount}}
+                  </p>
+                </div>
+                <div class="col col-20 text-right">
+                  <p>
+                    ${{ProductsMeta[cKey].price * itemCount}}
+                  </p>
+                </div>
+              </div>
+            </span>
+
+            <!-- total -->
+            <div class="row">
+              <div class="col text-left">
+                <p>{{Cart.nbItems || 0}} product<span ng-show="Cart.nbItems != 1">s</span></p>
+              </div>
+              <div class="col text-right">
+                <p>Total price: <i class="balanced">${{Cart.totalPrice}}</i></p>
+              </div>
+            </div>
+
+
+            <div class="padding center">
+              <!-- action buttons -->
+              <button class="button button-block button-balanced" ng-click="proceedOrder()">
+                {{status.proceedMessage}}
+              </button>
+
+              <button class="button button-block button-light" ng-click="clearCart()">
+                Clear Cart
+              </button>
+            </div>
+
+
+
+          </div>
+        </div> <!-- ./ status.checkOut -->
+
+      </div>  <!-- ./ view has loaded... -->
+  </ion-content> <!-- ./ status.loading -->
+</ion-view>

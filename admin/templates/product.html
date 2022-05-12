@@ -1,0 +1,836 @@
+<div id="page-top" class="page-top">&nbsp;</div>
+
+<div ng-init="product.initView()" ng-switch="product.notFoundBoolean">
+    <div ng-switch-when="true">
+        <!-- 
+            --------------------------------------------------------------------
+            404 
+            --------------------------------------------------------------------
+        -->
+        <section id="product" class="section-product">
+            <div class="container">
+                
+                <div class="row product-top">
+                    <div class="col-sm-8 col-sm-offset-2">
+                        
+                        <p>
+                        
+                            <img src="img/product-icon-grey.png"
+                            alt="Noodlio">
+                        
+                        </p>
+                        
+                        <hr class="star-light">
+                        
+                        <p>Sorry, the requested product has been removed or changed and is not available anymore :(</p>
+                    
+                    </div>
+                </div> <!-- end row -->
+                
+            </div> <!-- end container -->
+        </section> <!-- end section -->
+    </div> <!-- end product not found true -->
+    
+    <div ng-switch-when="false">
+        
+        
+        <!-- START PRODUCT CODE HERE -->
+        
+        <!-- Product Section -->
+        <section id="product" class="section-product">
+            <div class="container">
+        
+        <!-- 
+            --------------------------------------------------------------------
+            Header 
+            --------------------------------------------------------------------
+        -->  
+                
+                <div class="row product-top">
+                    
+                    <div class="col-sm-4" >
+                        
+                        <span ng-show="product.ProductMeta">
+                            
+                            
+                            
+                            
+                            
+                            <p>
+                                <a  href=""
+                                    ng-click="product.goToCategory()">
+                                    {{::product.ProductMeta.categoryId}}
+                                </a>
+                                
+                                <span class="text-small">&nbsp; | &nbsp;</span>
+                                
+                                <a  href=""
+                                    ng-click="product.goToSubCategory()">
+                                    {{::product.ProductMeta.productType}}
+                                </a>
+                            </p>
+                            
+                            <p ng-switch="product.authorDataLoaded" >
+                                <a  ng-switch-when="true"
+                                    href="" ng-click="product.goToProfile(product.AuthorData.username)">
+                                    {{product.AuthorData.github.displayName || product.AuthorData.github.username}}
+                                </a>
+                                <a  ng-switch-when="false"
+                                    href="" ng-click="product.goToUserId(product.ProductMeta.userId)">
+                                    Loading...
+                                </a>
+                            </p>
+                            
+                            
+                            
+                            <div id="rating-scale" > <!-- ng-show="product.ratingCache.avg" -->
+                                <stars rating="{{product.ratingCache.avg}}"></stars>
+                                <span ng-show="product.ratingCache.avg">
+                                    ({{product.ratingCache.n}})
+                                </span>
+                            </div> 
+                        
+                        
+                         </span>
+                    </div>
+                    
+                    <div class="col-sm-4" >
+                        
+                        <p>
+                            <span style="position: relative !important;">
+                                
+                                <img ng-src="{{product.productIcon || 'img/product-icon-grey.png'}}"
+                                    alt="{{::product.ProductMeta.title}}">
+                            </span>
+                                    
+                            
+                        </p>
+                         
+                    
+                    </div>
+                    
+                    <div class="col-sm-4" >
+                            
+                            <p>
+                            <!-- 
+                            <a 
+                                ng-click="product.actionButton('star')"
+                                href=""
+                                class="btn-social btn-positive-outline no-margin-top">
+                                <i class="fa fa-fw fa-star"></i>
+                            </a>
+                            -->
+                            <a  href=""
+                                class="btn-social btn-positive-outline no-margin-top"
+                                socialshare
+                                socialshare-provider="twitter"
+                                socialshare-text="{{product.SocialShareText}}">
+                                <i class="fa fa-fw fa-twitter"></i>
+                            </a>
+                            <a  href=""
+                                class="btn-social btn-positive-outline no-margin-top"
+                                socialshare
+                                socialshare-provider="facebook"
+                                socialshare-text="{{product.SocialShareText}}">
+                                <i class="fa fa-fw fa-facebook"></i>
+                            </a>
+                            <a  href=""
+                                class="btn-social btn-positive-outline no-margin-top"
+                                socialshare
+                                socialshare-provider="tumblr"
+                                socialshare-text="{{product.SocialShareText}}">
+                                <i class="fa fa-fw fa-tumblr"></i>
+                            </a>
+                            <a  href=""
+                                class="btn-social btn-positive-outline no-margin-top"
+                                socialshare
+                                socialshare-provider="delicious"
+                                socialshare-text="{{product.SocialShareText}}">
+                                <i class="fa fa-fw fa-delicious"></i>
+                            </a>
+                            
+                            </p>
+                        
+        
+                    </div>
+                    
+                </div> <!-- end row -->
+                
+            
+                
+                <!-- meta -->    
+                
+                <div class="row product-sub">
+                    
+                    <div class="col-sm-8 col-sm-offset-2">
+                        <h1>{{product.ProductMeta.title}}</h1>
+                        <h2>{{product.ProductMeta.tagline}}</h2>
+                    </div>
+                </div>
+            
+                
+            
+        <!-- 
+            --------------------------------------------------------------------
+            Actions 
+            --------------------------------------------------------------------
+        -->
+                
+                <div class="row product-download" ng-show="product.protectWhileLoadingBoolean >= 2">
+                    
+                    <div class="col-sm-10 col-sm-offset-1" >
+                        
+                        <p>
+                            
+                            <a id="download-button"
+                                href="{{product.ProductMeta.demo_url}}"
+                                target="_blank"
+                                class="button-a btn-positive-outline margin-5"
+                                ng-show="product.ProductMeta.demo_url">
+                                Demo
+                            </a>
+                            
+                            <a id="download-button"
+                                href="{{product.ProductMeta.externalUrl}}"
+                                target="_blank"
+                                class="button-a btn-positive margin-5"
+                                ng-show="product.ProductMeta.externalUrl && product.ProductMeta.price > 0 && product.AuthData.uid != product.ProductMeta.userId">
+                                Buy for ${{product.ProductMeta.price}} 
+                            </a>
+                            
+                            <!-- not bought yet, but it is free -->
+                            <a id="download-button"
+                                href=""
+                                class="button-a btn-positive margin-5"
+                                ng-click="product.doPurchaseFree()"
+                                ng-show="!product.purchaseBoolean && product.ProductMeta.price <= 0 && product.AuthData.uid != product.ProductMeta.userId && product.SaleStatus.code != 'ERROR_UNAUTH'">
+                               
+                                Download for free
+                            </a>
+                            
+                            <!-- not bought yet, not free -->
+                            <a id="buy-button" 
+                                href=""
+                                class="button-a btn-positive margin-5"
+                                ng-click="product.doPurchasePaid()"
+                                ng-show="!product.purchaseBoolean && product.ProductMeta.price > 0 && product.SaleStatus.code != 'ERROR_UNAUTH' && product.AuthData.uid != product.ProductMeta.userId && !product.ProductMeta.externalUrl">
+                                
+                                Buy for ${{product.ProductMeta.price}}
+                            </a>
+                            
+                            <span ng-show="!product.purchaseBoolean && product.ProductMeta.price > 0 && product.SaleStatus.code != 'ERROR_UNAUTH' && !product.ProductMeta.externalUrl">
+                                <discount 
+                                    id="badge-product" class="breaking-3-o"
+                                    eligible={{product.ProductMeta.discount_eligible}}>
+                                </discount>
+                            </span>
+                           
+                            
+                            <!-- quick link to edit -->
+                            <a id="download-button" 
+                                href=""
+                                class="button-a btn-positive-outline margin-5"
+                                ng-show="product.AuthData.uid == product.ProductMeta.userId"
+                                ng-click="product.goToEdit()"> <!--   -->
+                                Edit
+                            </a>
+                            
+                            <!-- bought it (paid or free), now download it -->
+                            <a id="download-button" 
+                                class="button-a btn-positive margin-5"
+                                ng-href="{{product.ProductMeta['filepickerUrl']}}"
+                                target="_blank"
+                                ng-show="product.purchaseBoolean || product.AuthData.uid == product.ProductMeta.userId"> <!--   -->
+                                Download
+                            </a>
+                            
+             
+                            <!-- not signed in, so cannot download -->
+                            <a id="buy-button" 
+                                href=""
+                                class="button-a btn-positive margin-5"
+                                ng-click="product.authWithGithub()"
+                                ng-show="product.SaleStatus.code == 'ERROR_UNAUTH'">
+                                <i class="fa fa-github"></i> Sign in with Github
+                            </a>
+                            
+                            <p class="error-message" ng-show="product.SaleStatus.code != 'LOADING'">{{product.SaleStatus.message}}</p>
+                            <p class="loading-message" ng-show="product.SaleStatus.code == 'LOADING'">
+                                {{product.SaleStatus.message}}<br>
+                                <img src="css/loading.svg" id="loading-img-large">
+                            </p>
+        
+                        </p>
+                    </div>
+                    
+                    
+                </div>
+                
+                
+        <!-- 
+            --------------------------------------------------------------------
+            Screenshots 
+            --------------------------------------------------------------------
+        -->
+        
+                <div class="row product-screenshots" ng-hide="product.productImages.screenshot1 == 'img/submit-noscreenshot.png'">
+                    
+                    <div class="col-sm-10 col-sm-offset-1" ng-switch="product.loadScreenshotsMode">
+                        <div ng-switch-when="true">
+                            <p><img src="css/loading.svg" id="loading-img-large"></p>
+                        </div>
+                        <div ng-switch-when="false">
+                            
+                            <!-- product.slides -->
+                            <div class="col-sm-4 col-sm-offset-4 text-center">
+                                
+                                <!-- carousel -->
+                                <p>
+                                    <ul rn-carousel 
+                                        rn-carousel-transition="hexagon" 
+                                        rn-carousel-buffered
+                                        rn-carousel-auto-slide
+                                        rn-carousel-index="product.carouselIndex"
+                                        class="image" 
+                                        ng-if="!product.loadScreenshotsMode"
+                                        style="max-width: 100%; margin: auto">
+                                      <li ng-repeat="image in product.slides track by $index">
+                                        <div class="layer screenshots">
+                                            <img ng-src="{{image}}">
+                                        </div>
+                                      </li>
+                                    </ul>
+                                    
+                                    <div style="height: 460px !important">&nbsp;</div>
+                                </p>
+                                
+                                <!-- arrows -->
+                                <p>
+                                    <span 
+                                        ng-click="product.carouselIndex = product.carouselIndex - 1">
+                                        <i class="fa fa-chevron-left cicon-chevron"></i>
+                                    </span>
+                                    <span
+                                        ng-click="product.carouselIndex = product.carouselIndex + 1">
+                                        <i class="fa fa-chevron-right cicon-chevron"></i>
+                                    </span>
+                                </p>
+        
+                            </div>
+         
+                        </div>
+                    </div>
+        
+                    
+                </div> <!-- end screenshots -->
+        
+            </div>
+        </section>
+        
+        
+        <section id="product">
+            <div class="container">
+                
+                <div class="row">
+                    
+                    <!-- -->
+                    <div class="col-sm-8 col-sm-offset-2  text-left" ng-init="product.activateTab('description')">
+                        <ul class="nav nav-tabs">
+                            <li class="{{product.tabs['description']}}">
+                                <a href="" ng-click="product.activateTab('description')">
+                                    About
+                                </a>
+                            </li>
+                            <li class="{{product.tabs['specs']}}"> 
+                                <a href="" ng-click="product.activateTab('specs'); product.loadAuthor();">
+                                    Specs
+                                </a>
+                            </li>
+                            <li class="{{product.tabs['installation']}}">
+                                <a href="" ng-click="product.activateTab('installation')">
+                                    Usage
+                                </a>
+                            </li>
+                            <li class="{{product.tabs['comments']}}">
+                                <a href="" ng-click="product.activateTab('comments'); product.loadComments()">
+                                    Comments
+                                </a>
+                            </li>
+                            <li class="{{product.tabs['ratings']}}">
+                                <a href="" ng-click="product.activateTab('ratings'); product.loadRatings();">
+                                    Ratings
+                                </a>
+                            </li>
+                            <!--
+                            <li class="{{product.tabs['author']}}">
+                                <a href="" ng-click="product.activateTab('author'); product.loadAuthor();">
+                                    Author
+                                </a>
+                            </li>
+                            -->
+                        </ul>
+                    </div>
+                    
+                </div> <!-- end menu row -->
+                
+            </div>
+        </section>
+             
+             
+        <section id="no-margin">
+            <div class="container">
+                
+                
+        <!-- 
+            --------------------------------------------------------------------
+            Specs 
+            --------------------------------------------------------------------
+        -->
+                <div class="row product-specs" ng-show="product.tabs['specs'] == 'active'">
+                    
+                    <div ng-switch="product.loadingProfileData">
+                        <div ng-switch-when="true">
+                            <div class="col-sm-4 col-sm-offset-4">
+                                <p><img src="css/loading.svg" id="loading-img-large"></p>
+                            </div>
+                        </div>
+                        <!-- end loading data true -->
+                        <div ng-switch-when="false">
+                            
+                            <!-- CONTENT START -->
+                            
+                            <div class="col-sm-3 col-xs-5 col-sm-offset-2 text-left   ">
+                                <p id="spec-header">Author</p>
+                            </div>
+                            <div class="col-sm-5 text-left">
+                                <p class="product-comments">
+                                    
+                                    <img ng-src="{{product.AuthorData.github.profileImageURL}} || img/product-icon-grey.png" alt="{{product.AuthorData.github.displayName}}">
+                                    
+                                    {{product.AuthorData.github.displayName}} (@{{product.AuthorData.github.username}})
+                                </p>
+                                <p>
+                                    <a href="" ng-click="product.goToProfile(product.AuthorData.github.username)">
+                                    Other submissions by this author
+                                    </a>
+                                </p>
+                                
+                                <br> <!-- tab -->
+                                
+                            </div>
+                            
+                            <div class="col-sm-3 col-xs-5 col-sm-offset-2 text-left   ">
+                                <p id="spec-header">Version</p>
+                            </div>
+                            <div class="col-sm-5 text-left ">
+                                <p>{{product.ProductMeta.version || '1.0'}}</p>
+                            </div>
+                            
+                            <!-- spec start -->
+                
+                            <div class="col-sm-3 col-xs-5 col-sm-offset-2 text-left">
+                                <p id="spec-header">Published</p>
+                            </div>
+                            <div class="col-sm-5 text-left ">
+                                <p>{{product.ProductMeta.timestamp_creation_adj}}</p>
+                            </div>
+                            
+                            <!-- spec start -->
+                
+                            <div class="col-sm-3 col-xs-5 col-sm-offset-2 text-left">
+                                <p id="spec-header">Last update</p>
+                            </div>
+                            <div class="col-sm-5 text-left ">
+                                <p>{{product.ProductMeta.timestamp_update_adj}}</p>
+                            </div>
+                
+                            <!-- spec start -->
+                
+                            <div class="col-sm-3 col-xs-5 col-sm-offset-2 text-left">
+                                <p id="spec-header">Price</p>
+                            </div>
+                            <div class="col-sm-5 text-left ">
+                                <p>
+                                    
+                                    ${{product.ProductMeta.price}}
+                                    
+                                    <span ng-show="!product.purchaseBoolean && product.ProductMeta.price > 0 && product.SaleStatus.code != 'ERROR_UNAUTH'">
+                                        <discount 
+                                            id="badge-product" class="breaking-3-o"
+                                            eligible={{product.ProductMeta.discount_eligible}}>
+                                        </discount>
+                                    </span>
+                                
+                                </p>
+                            </div>
+                            
+                            <!-- spec start -->
+                
+                            <div class="col-sm-3 col-xs-5 col-sm-offset-2 text-left">
+                                <p id="spec-header">Type</p>
+                            </div>
+                            <div class="col-sm-5 text-left ">
+                                <p>
+                                    <a  href=""
+                                        ng-click="product.goToSubCategory()">
+                                        {{product.ProductMeta.productType}}
+                                    </a>
+                                </p>
+                            </div>
+                            
+                  
+                            <!-- spec start -->
+                
+                            <div class="col-sm-3 col-xs-5 col-sm-offset-2 text-left">
+                                <p id="spec-header">Category</p>
+                            </div>
+                            <div class="col-sm-5 text-left ">
+                                <p>
+                                    <a  href=""
+                                        ng-click="product.goToCategory()">
+                                        {{product.ProductMeta.categoryId}}
+                                    </a>
+                                </p>
+                            </div>
+                            
+                            <!-- spec start -->
+                
+                            <div class="col-sm-3 col-xs-5 col-sm-offset-2 text-left">
+                                <p id="spec-header">Preview</p>
+                            </div>
+                            <div class="col-sm-5 text-left ">
+                                <p>{{product.ProductMeta.demo || 'Not specified'}}</p>
+                            </div>
+                            
+                            <!-- spec start -->
+                
+                            <div class="col-sm-3 col-xs-5 col-sm-offset-2 text-left">
+                                <p id="spec-header">Eligible for promotions</p>
+                            </div>
+                            <div class="col-sm-5 text-left">
+                                <p>
+                                    <span class="text-variable">
+                                        {{product.ProductMeta.promotionBoolean || 'false'}}
+                                    </span>
+                                </p>
+                            </div>
+                            
+                            <!-- CONTENT END -->
+                            
+                        </div>
+                        <!-- end loading data false -->
+                    </div>
+                    <!-- end switch -->
+                    
+                    
+                    
+                    
+                    
+                    
+                </div>
+                
+        <!-- 
+            --------------------------------------------------------------------
+            Description 
+            --------------------------------------------------------------------
+        -->
+        
+                <div class="row product-below-nav" ng-show="product.tabs['description'] == 'active'">
+                    <div class="col-sm-8 col-sm-offset-2">
+                        <div btf-markdown="product.ProductMeta.description" class="markdown-custom"></div>
+                    </div>
+                </div>
+                
+        
+        <!-- 
+            --------------------------------------------------------------------
+            Installation 
+            --------------------------------------------------------------------
+        -->
+        
+                <div class="row product-below-nav" ng-show="product.tabs['installation'] == 'active'">
+                    
+                    <div class="col-sm-8 col-sm-offset-2">
+                        <div btf-markdown="product.ProductMeta.installation" class="markdown-custom"></div>
+                        <p ng-show="!product.ProductMeta.installation">No instructions provided</p>
+                    </div>
+                    
+                </div>
+                
+        
+        
+                
+                
+                
+                
+        <!-- 
+            --------------------------------------------------------------------
+            ProductComments 
+            --------------------------------------------------------------------
+        -->
+                
+                <div 
+                    class="row product-below-nav product-row" 
+                    ng-show="product.tabs['comments'] == 'active'">
+                    
+                    <!-- input -->
+                    
+                    <div ng-switch="product.loadCommentsMode['loadAuth']">
+                        <div ng-switch-when="false">
+                            
+                            <div ng-switch="product.loadCommentsMode['statusAuth']">
+                                
+                                <div ng-switch-when="false"> <!-- statusAuth: false logged out, cannot post only read -->
+                                
+                                    <div class="col-sm-8 col-sm-offset-2 text-center">
+                                        
+                                        <p>You need to be <a href="#/page/login">signed in</a> to post comments</p>
+                                        <br>
+                                        
+                                    </div>
+                                    
+                                </div>
+                                
+                                <div ng-switch-when="true"> <!-- statusAuth: true logged in, can post an read -->
+                                    
+                                    <div class="col-sm-6 col-sm-offset-2 text-left">
+                        
+                                        <textarea 
+                                            ng-model="product.commentInputValue"
+                                            rows="3" 
+                                            class="submit-box-generic submit-input-wide" 
+                                            placeholder="Write a comment"></textarea>
+                                            
+                                    </div>
+                                    
+                                    <div class="col-sm-2 text-right">
+                                        
+                                        <button 
+                                            ng-click="product.submitComment()"
+                                            class="btn-positive-outline margin-5">
+                                            Post comment
+                                        </button>
+                                        
+                                    </div>
+                                    
+                                    
+                                </div> <!-- end statusAuth true -->
+                                
+                            </div> <!-- end statusAuth -->
+                            
+                        </div> <!-- end loadAuth false -->
+                    </div> <!-- end loadAuth -->
+                    
+                </div>
+                
+                <hr class="star-light">
+                
+                <div class="row product-row" ng-show="product.tabs['comments'] == 'active'">
+                    
+                    
+                    <!-- comment and ng-switch -->
+                    
+                    <div ng-switch="product.loadCommentsMode['loadComments']">
+                        
+                        <div ng-switch-when="true">
+                            <div class="col-sm-8 col-sm-offset-2">
+                                <p><img src="css/loading.svg" id="loading-img-large"></p>
+                            </div>
+                        </div>
+                        <div ng-switch-when="false" class="product-comments text-left">
+                            
+                            
+                            <div ng-repeat="comment in product.Comments | orderBy: '-timestamp'">
+                                
+                                <div class="col-sm-1 col-xs-3 col-sm-offset-2 text-left">
+                                    <p>
+                                        <img ng-src="{{product.getCommentProfile(comment.userId).github.profileImageURL || 'img/product-icon-grey.png'}}">
+                                    </p>
+                                </div>
+                                
+                                <div class="col-sm-5">
+                                    
+                                    <p>
+                                        <a href="" ng-click="product.goToProfile(product.getCommentProfile(comment.userId).github.username)">
+                                        {{product.getCommentProfile(comment.userId).github.displayName || product.getCommentProfile(comment.userId).github.username}}
+                                        </a>
+                                        &nbsp;&nbsp;
+                                        <span class="text-small">{{product.formatTimeStamp(comment.timestamp)}}</span>
+                                        <br>
+                                        {{comment.message}}
+                                    </p>
+              
+                                </div>
+                            </div>
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+                
+                
+                
+                
+        <!-- 
+            --------------------------------------------------------------------
+            Product Ratings 
+            --------------------------------------------------------------------
+        -->
+                <div 
+                    class="product-below-nav"
+                    ng-show="product.tabs['ratings'] == 'active'">
+                    
+                    
+                    <div ng-switch="product.loadRatingsMode['loadAuth']">
+                        
+                        <!-- loading done -->
+                        <div ng-switch-when="false">
+                            
+                            <div ng-switch="product.loadRatingsMode['statusAuth']" style="margin-top: -30px !important;">
+                                
+                                <!-- statusAuth: false logged out, cannot post only read -->
+                                <div ng-switch-when="false"> 
+                                    
+                                    
+                                    <div class="row">
+                                        <div class="col-sm-8 col-sm-offset-2 text-center">
+                                            
+                                            <br>
+                                            <p>
+                                                <span>
+                                                You need to have purchased/downloaded the product in order to rate this item
+                                                </span>
+                                            </p>
+                                            
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                                
+                                <!-- statusAuth: true logged in, can post and read -->
+                                <div ng-switch-when="true"> 
+                                    
+                                    <div class="row">
+                                        <div class="col-sm-8 col-sm-offset-2 text-center">
+                                            
+                                            <p>
+                                                <button class="btn-clear" ng-click="product.clickStar(1)">
+                                                    <i class="fa fa-star stars-big {{product.cssRatingStar[1]}}"></i>
+                                                </button>
+                                                <button class="btn-clear" ng-click="product.clickStar(2)">
+                                                    <i class="fa fa-star stars-big {{product.cssRatingStar[2]}}"></i>
+                                                </button>
+                                                <button class="btn-clear" ng-click="product.clickStar(3)">
+                                                    <i class="fa fa-star stars-big {{product.cssRatingStar[3]}}"></i>
+                                                </button>
+                                                <button class="btn-clear" ng-click="product.clickStar(4)">
+                                                    <i class="fa fa-star stars-big {{product.cssRatingStar[4]}}"></i>
+                                                </button>
+                                                <button class="btn-clear" ng-click="product.clickStar(5)">
+                                                    <i class="fa fa-star stars-big {{product.cssRatingStar[5]}}"></i>
+                                                </button>
+                                            </p>
+                                            
+                                            <p ng-show="product.ratingMessage">
+                                                <span class="text-variable" style="margin-bottom: 10px">{{product.ratingMessage}}<br></span>
+                                            </p>
+                                            
+                                            
+                                            
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row">
+                                        <div class="col-sm-6 col-sm-offset-2 text-left">
+                                            
+                                            <textarea 
+                                                ng-model="product.ratingInputValue"
+                                                rows="2" 
+                                                class="submit-box-generic submit-input-wide" 
+                                                placeholder="Add a comment to your rating (optional)">
+                                            </textarea>
+                                            
+                                        </div>
+                                        <div class="col-sm-2 text-right">
+                                            
+                                            <button 
+                                                ng-click="product.postRating()"
+                                                class="btn-positive-outline margin-5" >
+                                                Submit rating
+                                            </button> <!--  full-width-50 margin-right-m5    style="margin-top: 5px"-->
+                                            
+                                        </div>
+                                    </div>
+                                    
+                                    
+                                    
+                                </div> <!-- end statusAuth true -->
+                                
+                            </div> <!-- end statusAuth -->
+                            
+                        </div> <!-- end loadAuth false -->
+                    </div> <!-- end loadAuth -->
+                    
+                </div>
+                
+                <hr class="star-light">
+                
+                <div class="row product-row" ng-show="product.tabs['ratings'] == 'active'">
+                    
+                    
+                    <!-- comment and ng-switch -->
+                    
+                    <div ng-switch="product.loadRatingsMode['loadRatings']">
+                        
+                        <div ng-switch-when="true">
+                            <div class="col-sm-8 col-sm-offset-2">
+                                <p><img src="css/loading.svg" id="loading-img-large"></p>
+                            </div>
+                        </div>
+                        <div ng-switch-when="false" class="product-comments text-left">
+                            
+                            
+                            <div ng-repeat="(key, rating) in product.Ratings" ng-show="key != 'cache'">
+                                
+                                <div class="col-sm-1 col-xs-3 col-sm-offset-2 text-left">
+                                    <p>
+                                    <img ng-src="{{product.getRatingProfile(key).github.profileImageURL || 'img/product-icon-grey.png'}}">
+                                    </p>
+                                </div>
+                                
+                                <div class="col-sm-5" >
+                                    <p>
+                                        <a href="" ng-click="product.goToProfile(product.getRatingProfile(key).github.username)">
+                                        {{product.getRatingProfile(key).github.displayName || product.getRatingProfile(key).github.username}}
+                                        </a>
+                                        &nbsp;&nbsp;
+                                        <stars rating="{{rating.value}}"></stars>
+                                        <br>
+                                        {{rating.message}}
+                                    </p>
+  
+                                    
+                                </div>
+                            </div>
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+        
+            </div>
+        </section>
+
+
+        
+        
+        
+        
+        <!-- END PRODUT CODE HERE
+        
+        
+    </div> <!-- end product not found false -->
+</div> <!-- end ng-switch -->
+
+
+

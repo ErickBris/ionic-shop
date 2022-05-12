@@ -1,0 +1,66 @@
+<ion-view view-title="Latest">
+  <ion-content>
+
+    <ion-refresher
+      pulling-text="Pull to refresh..."
+      on-refresh="doRefresh()"
+      pulling-icon="ion-ios-arrow-thin-down">
+    </ion-refresher>
+
+    <!-- init loading -->
+    <div class="padding center" ng-show="status.initLoading">
+      <ion-spinner></ion-spinner>
+      <p>Loading the view...</p>
+    </div>
+
+    <div ng-repeat="(key, category) in Categories" ng-hide="!CategoryNonEmpty[key]">
+
+      <!-- category header -->
+      <div class="row row-center category-header">
+        <div class="col col-center text-left">
+            <h1 id="category-title">
+              {{category.title}}
+            </h1>
+        </div>
+        <div class="col col-center text-right">
+            <button class="button button-balanced button-outline button-small" ng-click="goToCategory(key)">More</button>
+        </div>
+      </div>
+      <!-- ./ category header -->
+
+      <!-- items per category -->
+      <div ng-switch="status[key].loading">
+        <div ng-switch-when="true" class="center">
+          <ion-spinner></ion-spinner>
+        </div>
+        <div ng-switch-when="false">
+          <ion-slide-box on-slide-changed="slideHasChanged($index)" style="margin: 0px !important;">
+            <ion-slide ng-repeat="item in getProductsMeta(key) | orderBy: sortType">
+
+              <!-- item card start -->
+              <div class="list card">
+
+                <div class="item item-text-wrap">
+                  <h2>{{item.value.title}}</h2>
+                </div>
+
+                <a class="item item-image" href="" ng-click="goToItem(item.key)">
+                  <img class="thumbnail-card" ng-src="{{getProductIcon(item.key) || 'img/no-image.png'}}">
+                </a>
+
+                <a class="item">
+                  <p>${{item.value.price}}</p>
+                  <p>{{item.value.summary}}</p>
+                </a>
+
+              </div>
+              <!-- ./ item card end -->
+
+            </ion-slide>
+          </ion-slide-box>
+        </div>
+      </div> <!-- ./ items per category -->
+
+    </div>
+  </ion-content>
+</ion-view>

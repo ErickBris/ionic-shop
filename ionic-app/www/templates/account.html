@@ -1,0 +1,93 @@
+<ion-view view-title="Account">
+  <ion-content ng-switch="status.loading">
+
+      <!-- view is loading... -->
+      <div ng-switch-when="true" class="padding center">
+        <ion-spinner></ion-spinner>
+
+        <p>
+          <button class="button button-full button-light" ng-click="login()">Toggle login manually</button>
+        </p>
+      </div> <!-- ./ view is loading... -->
+
+      <!-- view has loaded -->
+      <div ng-switch-when="false">
+
+        <!-- GENERAL -->
+        <ion-list>
+
+          <ion-item class="item item-divider">
+            General
+          </ion-item>
+
+          <ion-item ng-click="changeEmail()">
+            Change E-mail
+            <span class="item-note">
+              {{AuthData.password.email}}
+            </span>
+          </ion-item>
+
+          <ion-item ng-click="changePassword('change')">
+            Change Password
+            <span class="item-note">
+              ***
+            </span>
+          </ion-item>
+
+          <ion-item ng-click="unAuth()">
+            Sign out
+          </ion-item>
+
+        </ion-list> <!-- ./ GENERAL -->
+
+        <!-- Account Information -->
+        <ion-item class="item item-divider">
+          Delivery details
+          <span class="item-note">
+            <ion-spinner ng-show="status.loadingProfile" class="spinner-small"></ion-spinner>
+          </span>
+        </ion-item>
+
+        <label class="item item-input">
+          <span class="input-label">Full name</span>
+          <input type="text" ng-model="ProfileData.name">
+        </label>
+
+        <label class="item item-input">
+          <span class="input-label">Address line 1</span>
+          <input type="text" ng-model="ProfileData.address1">
+        </label>
+
+        <label class="item item-input">
+          <span class="input-label">Address line 2</span>
+          <input type="text" ng-model="ProfileData.address2">
+        </label>
+
+        <label class="item item-input">
+          <span class="input-label">Post code</span>
+          <input type="text" ng-model="ProfileData.postcode">
+        </label>
+
+        <label class="item item-input">
+          <span class="input-label">City</span>
+          <input type="text" ng-model="ProfileData.city">
+        </label>
+
+        <label class="item item-input">
+          <span class="input-label">Country</span>
+          <input type="text" ng-model="ProfileData.country">
+        </label>
+
+        <label class="item item-input">
+          <span class="input-label">Contact nr.</span>
+          <input type="tel" ng-model="ProfileData.tel" placeholder="e.g. +44 123456789">
+        </label>
+
+        <label class="item">
+          <button class="button button-block {{status.updateButtonClass}}" ng-click="updateProfile()">{{status.updateMessage}}</button>
+        </label>
+
+      </div> <!-- ./ view has loaded -->
+
+  </ion-content>
+</ion-view>

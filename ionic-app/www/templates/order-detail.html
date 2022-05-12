@@ -1,0 +1,46 @@
+<ion-view view-title="{{orderId}}">
+  <ion-content ng-switch="status.loading">
+    <!-- view is loading... -->
+    <div ng-switch-when="true" class="padding center">
+      <ion-spinner></ion-spinner>
+    </div> <!-- ./ view is loading... -->
+
+    <!-- view has loaded -->
+    <div ng-switch-when="false">
+
+      <!-- header -->
+      <div class="row">
+        <div class="col col-40 text-left"><strong>Product</strong></div>
+        <div class="col col-20 text-center"><strong>Price</strong></div>
+        <div class="col col-20 text-center"><strong>x</strong></div>
+        <div class="col col-20 text-right"><strong>Total</strong></div>
+      </div>
+
+      <!-- items -->
+      <div class="row" ng-repeat="(cKey, ProductMeta) in ItemsProductsMeta">
+        <div class="col col-40 text-left"><p>{{ProductMeta.title}}</p></div>
+        <div class="col col-20 text-center"><p>${{ProductMeta.price}}</p></div>
+        <div class="col col-20 text-center"><p>{{ProductMeta.count}}</p></div>
+        <div class="col col-20 text-right"><p>${{ProductMeta.price * ProductMeta.count}}</p></div>
+      </div>
+
+      <!-- total -->
+      <div class="row line-top">
+        <div class="col text-left">
+          <p>{{OrderData.nbItems || 0}} product<span ng-show="OrderData.nbItems != 1">s</span></p>
+        </div>
+
+        <div class="col text-right">
+          <p>Total price: <i class="balanced">${{OrderData.totalPrice}}</i></p>
+        </div>
+      </div>
+
+      <div class="row line-top">
+        <div class="col text-left">
+          <p>Order received on <i class="balanced">{{formatTimestamp(OrderData.timestamp)}}</i></p>
+        </div>
+      </div>
+
+    </div>
+  </ion-content>
+</ion-view>

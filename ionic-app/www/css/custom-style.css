@@ -1,0 +1,143 @@
+/*
+  Pardon me for not using SASS. I might do this in the upcoming releases.
+*/
+
+body, p {
+  color: #444 !important;
+}
+p, button, .item-input input, .item-input textarea {
+  font-size: 14px !important;
+  font-weight: 400 !important;
+}
+.item-input input, .item-input textarea {
+  color: #33cd5f !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+}
+
+
+
+button {
+  font-size: 12px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 5px !important;
+  border-radius: 6px !important;
+}
+button.button-small {
+  font-size: 10px !important;
+}
+.cicon {
+  font-size: 24px !important
+}
+.cicon-large {
+  font-size: 36px !important
+}
+.round-icon {
+  border-radius: 100% !important;
+  padding: 0px !important;
+  text-align: center !important;
+  font-size: 24px !important;
+  font-weight: bold !important;
+}
+.spinner-small svg {
+  width: 15px !important;
+  height: 15px !important;
+}
+
+.center {
+  text-align: center;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-right {
+  text-align: right;
+}
+
+span.tab {
+  margin-right: 30px;
+}
+
+.line-top {
+  border-top: 1px solid #DDD;
+}
+
+.menu-custom {
+  background: #444 !important;
+}
+.menu-item-custom {
+  font-size: 12px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 5px !important;
+
+}
+a.item-content {
+  color: #33cd5f !important;
+}
+.item-image img {
+  height: 350px !important;
+  width: auto !important;
+}
+
+h1, h2, h3 {
+  font-weight: 400 !important;
+}
+div.title.title-center.header-item, h1.title, h1#category-title {
+  font-size: 14px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 5px !important;
+  margin: 0px !important;
+  font-weight: 400 !important;
+  color: #444 !important;
+}
+h2 {
+  font-size: 14px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 5px !important;
+  color: #515151 !important;
+  padding: 5px 20px;
+  text-align: center;
+  margin: auto;
+}
+h3 {
+  font-size: 12px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 5px !important;
+  color: #515151 !important;
+  padding: 5px 20px;
+  text-align: center;
+  margin: auto;
+  margin-bottom: 0px;
+}
+.item-divider {
+  background: #fff !important;
+  font-weight: 400 !important;
+  font-size: 12px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 2px !important;
+  font-weight: 600 !important;
+}
+
+span.input-label, strong, ion-item {
+  font-size: 11px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 2px !important;
+  font-weight: 400 !important;
+}
+
+.item-note {
+  text-transform: none !important;
+  font-weight: 400 !important;
+  color: #33cd5f !important;
+}
+.category-header {
+  background: #fff !important;
+}
+.category-header button {
+  background: #fff !important;
+}
+.slider-slide {
+  max-width: 100vw !important;
+}

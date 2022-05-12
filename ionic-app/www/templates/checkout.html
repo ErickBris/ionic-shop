@@ -1,0 +1,137 @@
+<ion-view view-title="Checkout">
+
+  <!-- buttons -->
+  <ion-nav-buttons side="left">
+    <button class="button button-clear" ng-click="prevMode()" ng-show="status.mode != 'confirmation'">
+      <i class="ion-ios-arrow-thin-left cicon"></i>
+    </button>
+  </ion-nav-buttons>
+
+  <ion-content ng-switch="status.mode">
+
+    <!-- DELIVERY DETAILS -->
+    <div ng-switch-when="delivery-details">
+
+      <!-- Account Information -->
+      <ion-item class="item item-divider">
+        Step 1: Delivery details
+        <span class="item-note">
+          <ion-spinner ng-show="status.loadingProfile" class="spinner-small"></ion-spinner>
+        </span>
+      </ion-item>
+
+      <label class="item item-input">
+        <span class="input-label">Full name</span>
+        <input type="text" ng-model="ProfileData.name">
+      </label>
+
+      <label class="item item-input">
+        <span class="input-label">Address line 1</span>
+        <input type="text" ng-model="ProfileData.address1">
+      </label>
+
+      <label class="item item-input">
+        <span class="input-label">Address line 2</span>
+        <input type="text" ng-model="ProfileData.address2">
+      </label>
+
+      <label class="item item-input">
+        <span class="input-label">Post code</span>
+        <input type="text" ng-model="ProfileData.postcode">
+      </label>
+
+      <label class="item item-input">
+        <span class="input-label">City</span>
+        <input type="text" ng-model="ProfileData.city">
+      </label>
+
+      <label class="item item-input">
+        <span class="input-label">Country</span>
+        <input type="text" ng-model="ProfileData.country">
+      </label>
+
+      <label class="item item-input">
+        <span class="input-label">Contact nr.</span>
+        <input type="tel" ng-model="ProfileData.tel" placeholder="e.g. +44 123456789">
+      </label>
+
+      <ion-item ng-click="status['nextUpdateProfile'] = status.nextUpdateProfile == false">
+        Update profile with these details?
+        <span class="item-note">
+          {{status.nextUpdateProfile}}
+        </span>
+      </ion-item>
+
+      <label class="item">
+        <button class="button button-block button-balanced" ng-click="nextMode()">Next</button>
+      </label>
+
+    </div>
+
+    <!-- OVERVIEW -->
+    <div ng-switch-when="confirm">
+
+      <ion-item class="item item-divider">
+        Step 2: Preview order and Pay
+      </ion-item>
+
+      <div class="row">
+        <div class="col col-40 text-left"><strong>Product</strong></div>
+        <div class="col col-20 text-center"><strong>Price</strong></div>
+        <div class="col col-20 text-center"><strong>x</strong></div>
+        <div class="col col-20 text-right"><strong>Total</strong></div>
+      </div>
+
+      <div class="row" ng-repeat="(cKey, itemCount) in CartItems">
+        <div class="col col-40 text-left"><p>{{ProductsMeta[cKey].title}}</p></div>
+        <div class="col col-20 text-center"><p>${{ProductsMeta[cKey].price}}</p></div>
+        <div class="col col-20 text-center"><p>{{itemCount}}</p></div>
+        <div class="col col-20 text-right"><p>${{ProductsMeta[cKey].price * itemCount}}</p></div>
+      </div>
+
+      <div class="row line-top">
+        <div class="col text-left">
+          <p>{{Cart.nbItems || 0}} product<span ng-show="Cart.nbItems != 1">s</span></p>
+        </div>
+
+        <div class="col text-right">
+          <p>Total price: <i class="balanced">${{Cart.totalPrice}}</i></p>
+        </div>
+      </div>
+
+      <div class="padding center" ng-show="SaleObj.status != 'loading' && SaleObj.status != 'success'">
+        <button class="button button-block button-balanced" ng-click="nextMode()">Pay with Stripe</button>
+      </div>
+
+      <div class="padding center" ng-show="SaleObj.status == 'loading' || SaleObj.status == 'error'">
+        <button class="button button-block button-light">Pay with Stripe</button>
+      </div>
+
+      <div class="padding center" ng-show="SaleObj.status == 'loading' || SaleObj.status == 'error'">
+        <p><ion-spinner></ion-spinner></p>
+        <p>{{SaleObj.message}}</p>
+      </div>
+
+    </div>
+
+    <!-- CONFIRMATION -->
+    <div ng-switch-when="confirmation">
+
+      <ion-item class="item item-divider">
+        Step 3: Confirmation
+      </ion-item>
+
+      <div class="padding center">
+        <p>Thank you for your order. We will be in touch shortly. Your order reference is: <i class="balanced">{{status.orderId}}</i></p>
+      </div>
+
+      <div class="padding center">
+        <p>
+          <button class="button button-balanced button-outline" ng-click="finishCheckOut()">View orders</button>
+        </p>
+      </div>
+
+    </div>
+
+  </ion-content>
+</ion-view>

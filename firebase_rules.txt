@@ -1,0 +1,85 @@
+{
+  "rules": {
+    
+    // -----------------
+    "admin": {
+      ".read": true,
+      ".write": false
+    },
+    
+    // -----------------
+    "users": {
+      "$uid": {
+        ".write": "auth !== null && auth.uid === $uid || root.child('users').child($uid).val() === null",
+        ".read": true
+      },
+      ".read": true,
+      ".indexOn": "uid"
+    },
+    
+    // -----------------
+    "orders": {
+      "$uid": {
+        "$orderId": {
+          ".write": "auth !== null && auth.uid === $uid || root.child('orders').child($uid).child($orderId).val() === null",
+          ".read": "(auth !== null && auth.uid === $uid) || (auth.uid === root.child('admin').val())"
+        },
+        ".read": "(auth !== null && auth.uid === $uid) || (auth.uid === root.child('admin').val())"
+      },
+      ".read": "(auth !== null && auth.uid === root.child('admin').val())"
+    },
+    
+    // -----------------
+    "invoices": {
+      "$uid": {
+        "$orderId": {
+          ".write": "auth !== null && auth.uid === $uid || root.child('invoices').child($uid).child($orderId).val() === null",
+          ".read": "(auth !== null && auth.uid === $uid) || (auth.uid === root.child('admin').val())"
+        },
+        ".read": "(auth !== null && auth.uid === $uid) || (auth.uid === root.child('admin').val())"
+      },
+      ".read": "(auth !== null && auth.uid === root.child('admin').val())"
+    },
+    
+    // -----------------
+    "products_index": {
+      ".read": true,
+      "view-all": {
+        "$productId": {
+          ".write": "auth !== null && auth.uid === root.child('admin').val()",
+          ".read": true
+        },
+        ".read": true,
+        ".indexOn": "timestamp_creation"
+      },
+      "view-categoryId": {
+        "$categoryId": {
+          "$productId": {
+            ".write": "auth !== null && auth.uid === root.child('admin').val()",
+            ".read": true
+          },
+          ".read": true,
+          ".indexOn": "timestamp_creation"
+        }
+      }
+    },
+    
+    // -----------------
+    "products_meta": {
+      ".read": true,
+      "$productId": {
+        ".write": "auth !== null && auth.uid === root.child('admin').val() || root.child('products_meta').child($productId).val() === null",
+        ".read": true
+      }
+    },
+    
+    // -----------------
+    "products_images": {
+      ".read": true,
+      "$productId": {
+        ".write": "auth !== null && auth.uid === root.child('admin').val() || root.child('products_images').child($productId).val() === null",
+        ".read": true
+      }
+    }
+  } // ./ rules
+}

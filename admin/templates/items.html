@@ -1,0 +1,93 @@
+<div id="page-top" class="page-top">&nbsp;</div> <!-- used for anchorscroll -->
+
+<section id="home" class="section-product" ng-init="items.initView()">
+    <div class="container">
+        
+        <div class="row">
+            <div class="col-sm-8 col-sm-offset-2 text-center">
+                
+                
+                <h1>
+                    <a href="" ng-click="items.goTo('admin.home')">Menu</a> | Items
+                </h1>
+                <p>
+                    <a href="" ng-click="items.goTo('admin.submit')">+ Add a new item</a>
+                </p>
+                <p>&nbsp;</p>
+                <p id="warning" ng-show="items.statusObj.generalmessage">
+                    {{items.statusObj.generalmessage}}
+                </p>
+      
+            </div>
+        </div>
+        
+        <hr class="star-light">
+        
+        <!-- spinner - can be rewritten to ng-switch to avoid flickering -->
+        <div class="row" ng-show="items.statusObj.loading">
+            <div class="col-sm-8 col-sm-offset-2 text-center">
+                <p><img ng-src="css/loading.svg" id="loading-img-large"></p>
+            </div>
+        </div>  <!-- ./ spinner -->
+        
+        <!-- FormData -->
+        <div ng-show="!items.statusObj.loading">
+            
+            <!-- HEADER -->
+            <div class="row row-item" ng-repeat="item in items.ProductsMeta | orderBy: '-value.price'">
+                
+                
+                <div class="col-sm-1  text-left center-small-screen">
+                    <p>
+                        <img 
+                            ng-src="{{items.getProductIcon(item.key) || 'img/blank.png'}}" 
+                            class="submit-icon-showcase">
+                    </p>
+                </div>
+                <div class="col-sm-3  text-left center-small-screen">
+                    <p class="small">
+                        <strong>{{item.value.title}}</strong>
+                    </p>
+                </div>
+                
+                <div class="col-sm-2  text-left center-small-screen">
+                    <p class="small">
+                        {{item.value.categoryId}}
+                    </p>
+                </div>
+                
+                <div class="col-sm-1  text-left center-small-screen">
+                    <p class="small">
+                        ${{item.value.price}}
+                    </p>
+                </div>
+ 
+                
+                <div class="col-sm-1  text-left center-small-screen">
+                    <p class="smaller">
+                        {{items.formatTimestamp(item.value.timestamp_update)}}
+                    </p>
+                </div>
+                
+                <div class="col-sm-4  text-right center-small-screen">
+                    <p>
+                        <button class="btn-positive-outline" ng-click="items.editItem(item.key)">
+                            Edit
+                        </button>
+                        <button class="btn-negative-outline" ng-click="items.deleteItem($index)">
+                            Delete
+                        </button>
+                    </p>
+                </div>
+                
+            </div>
+            <!-- ./ HEADER -->
+            
+           
+          
+            
+        </div> <!-- ./ FormData -->
+        
+
+    </div>
+</section>

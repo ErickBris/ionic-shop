@@ -1,0 +1,70 @@
+<ion-view view-title="{{status.categoryName}}">
+  <ion-content>
+
+    <!-- sort select section -->
+    <ion-list>
+      <ion-item class="item item-divider" ng-click="selectSort()">
+        Sort by
+        <span class="item-note">
+          {{status.sort.property}}
+          <span ng-show="status.sort.method == 'asc' && status.sort.property != 'Date'">
+            Low-High
+          </span>
+          <span ng-show="status.sort.method == 'desc' && status.sort.property != 'Date'">
+            High-Low
+          </span>
+        </span>
+      </ion-item>
+
+      <!-- collapsed sort choices -->
+      <div ng-show="status.sort.selectMode">
+        <ion-item class="item item-icon-right" ng-click="sortBy('Price', 'desc')" >
+          Price (High-Low)
+          <i class="icon ion-ios-arrow-right"></i>
+        </ion-item>
+        <ion-item class="item item-icon-right" ng-click="sortBy('Price', 'asc')">
+          Price (Low-High)
+          <i class="icon ion-ios-arrow-right"></i>
+        </ion-item>
+        <ion-item class="item item-icon-right" ng-click="sortBy('Date', 'desc')">
+          Date (new-old)
+          <i class="icon ion-ios-arrow-right"></i>
+        </ion-item> <!-- ./ collapsed sort choices -->
+      </div>
+
+    </ion-list> <!-- ./ sort select section -->
+
+    <div ng-switch="status[categoryId].loading">
+      <div ng-switch-when="true" class="padding center">
+        <ion-spinner></ion-spinner>
+        <p>Loading items in the category...</p>
+      </div>
+      <div ng-switch-when="false">
+        <span ng-repeat="item in getProductsMeta(categoryId) | orderBy: -sortType">
+
+          <!-- item card start -->
+          <div class="list card">
+
+            <div class="item">
+              <h2>{{item.value.title}}</h2>
+
+            </div>
+
+            <a class="item item-image" href="" ng-click="goToItem(item.key)">
+              <img class="thumbnail-card" ng-src="{{getProductIcon(item.key)}}">
+            </a>
+
+            <a class="item">
+              <p>${{item.value.price}}</p>
+              <p>{{item.value.summary}}</p>
+            </a>
+
+          </div>
+          <!-- ./ item card end -->
+
+        </span>
+      </div>
+    </div>
+
+  </ion-content>
+</ion-view>
